@@ -63,15 +63,31 @@
         }
 
         try {
+            console.log("Fetching due date for:", sendDateInput); // Step 1: Confirm button click works
+            
             let response = await fetch(`https://flask-due-date-calculator.onrender.com/calculate_due_date?send_date=${sendDateInput}`);
             let data = await response.json();
+
+            console.log("Raw API Response:", data); // Step 2: Check the actual response from API
+
             if (response.ok) {
-                let formattedDate = new Date(data.due_date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+                let dueDateStr = data.due_date; // Expected: "YYYY-MM-DD"
+                
+                // Ensure correct parsing of the due date
+                let formattedDate = new Date(dueDateStr + "T00:00:00").toLocaleDateString('en-US', { 
+                    month: '2-digit', 
+                    day: '2-digit', 
+                    year: 'numeric' 
+                });
+
+                console.log("Formatted Due Date:", formattedDate); // Step 3: Check the final date shown to user
+
                 document.getElementById("result").innerText = `Due Date: ${formattedDate}`;
             } else {
                 document.getElementById("result").innerHTML = `<span class='error'>Error: ${data.error || 'Failed to calculate due date.'}</span>`;
             }
         } catch (error) {
+            console.error("Fetch error:", error);
             document.getElementById("result").innerHTML = "<span class='error'>Server error. Please try again later.</span>";
         }
     }
