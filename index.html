@@ -3,22 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Due Date Calculator</title>
+    <title>ASSET DUE DATE CALCULATOR</title>
     <style>
         body { font-family: Arial, sans-serif; }
         .container { max-width: 400px; margin: 50px auto; text-align: center; }
+        h2 { text-transform: uppercase; }
         label, input, button { margin-top: 10px; display: block; width: 100%; }
-        button { padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        .input-container {
+            display: flex;
+            justify-content: center;
+        }
+        input[type="date"] {
+            font-size: 18px;
+            padding: 10px;
+            text-align: center;
+            width: 120%;
+            max-width: 450px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        button { 
+            padding: 15px; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            font-size: 20px;
+            width: 120%;
+            max-width: 450px;
+        }
         button:hover { background-color: #0056b3; }
         .error { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Due Date Calculator</h2>
+        <h2>ASSET DUE DATE CALCULATOR</h2>
         <label for="sendDate">Select Send Date:</label>
-        <input type="date" id="sendDate">
-        <button onclick="calculateDueDate()">Calculate</button>
+        <div class="input-container">
+            <input type="date" id="sendDate" style="font-size: 24px; padding: 15px;">
+        </div>
+        <div class="button-container">
+            <button onclick="calculateDueDate()">CALCULATE</button>
+        </div>
         <p id="result"></p>
     </div>
 
@@ -35,7 +67,7 @@
                 let data = await response.json();
                 if (response.ok) {
                     let formattedDate = new Date(data.due_date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
-                document.getElementById("result").innerText = `Due Date: ${formattedDate}`;
+                    document.getElementById("result").innerText = `Due Date: ${formattedDate}`;
                 } else {
                     document.getElementById("result").innerHTML = `<span class='error'>Error: ${data.error || 'Failed to calculate due date.'}</span>`;
                 }
